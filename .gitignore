@@ -20,6 +20,7 @@ Thumbs.db
 venv/
 
 # MinIO and generated data
+ivy-cache/
 minio-data/
 warehouse/
 bronze/

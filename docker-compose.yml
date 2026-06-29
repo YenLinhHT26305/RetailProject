@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+
+  minio:
+    image: minio/minio
+    container_name: minio
+
+    command: server /data --console-address ":9001"
+
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: admin123
+
+    volumes:
+      - ./minio-data:/data
+
+  jupyter:
+    image: jupyter/pyspark-notebook
+
+    container_name: jupyter
+
+    ports:
+      - "8888:8888"
+
+    volumes:
+      - ./notebooks:/home/jovyan/work
+      - ./data:/home/jovyan/data
+      - ./scripts:/home/jovyan/scripts
+
+    depends_on:
+      - minio

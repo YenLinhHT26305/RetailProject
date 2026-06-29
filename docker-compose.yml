@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
 
   minio:
@@ -21,7 +19,6 @@ services:
 
   jupyter:
     image: jupyter/pyspark-notebook
-
     container_name: jupyter
 
     ports:
@@ -32,5 +29,56 @@ services:
       - ./data:/home/jovyan/data
       - ./scripts:/home/jovyan/scripts
 
+    command: >
+      bash -c "pip install --no-cache-dir minio &&
+      start-notebook.py"
+
     depends_on:
       - minio
+
+  spark-master:
+    image: apache/spark:3.5.5
+    container_name: spark-master
+    hostname: spark-master
+
+    command:
+      [
+        "/opt/spark/bin/spark-class",
+        "org.apache.spark.deploy.master.Master"
+      ]
+
+    ports:
+      - "7077:7077"
+      - "8080:8080"
+
+    volumes:
+      - ./scripts:/opt/spark-apps
+      - ./ivy-cache:/home/spark/.ivy2
+
+    depends_on:
+      - minio
+
+  spark-worker:
+    image: apache/spark:3.5.5
+    container_name: spark-worker
+    hostname: spark-worker
+
+    command:
+      [
+        "/opt/spark/bin/spark-class",
+        "org.apache.spark.deploy.worker.Worker",
+        "--cores",
+        "2",
+        "--memory",
+        "2g",
+        "spark://spark-master:7077"
+      ]
+
+    ports:
+      - "8081:8081"
+
+    volumes:
+      - ./ivy-cache:/home/spark/.ivy2
+
+    depends_on:
+      - spark-master

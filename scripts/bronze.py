@@ -9,7 +9,7 @@ MINIO_ENDPOINT = "http://minio:9000"
 MINIO_ACCESS_KEY = "admin"
 MINIO_SECRET_KEY = "admin123"
 
-RAW_CSV_PATH = "s3a://bronze/online_retail_II.csv"
+RAW_CSV_PATH = "s3a://bronze/raw/online_retail_II.csv"
 BRONZE_DELTA_PATH = "s3a://bronze/delta/online_retail_raw"
 
 

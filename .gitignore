@@ -1,3 +1,6 @@
+# Local secrets
+.env
+
 # Python
 __pycache__/
 *.pyc
@@ -6,28 +9,30 @@ __pycache__/
 # Jupyter
 .ipynb_checkpoints/
 
-# Environment
-.env
+# IDE / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# Virtual environments
 .venv/
 venv/
 
-# MinIO
+# MinIO and generated data
 minio-data/
-
-# Spark
 warehouse/
-
-# Delta output
 bronze/
 silver/
 gold/
 
-# Logs
+# Spark / Delta / logs
+metastore_db/
+derby.log
+spark-warehouse/
 *.log
 
-# VSCode
-.vscode/
-
-# OS
-.DS_Store
-Thumbs.db
+# Raw datasets - each member downloads/runs ingestion locally
+data/*.xlsx
+data/*.csv
+data/*.parquet

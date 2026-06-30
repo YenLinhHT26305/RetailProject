@@ -56,6 +56,7 @@ services:
 
     volumes:
       - ./scripts:/opt/spark-apps
+      - ./exports:/opt/spark-apps/exports
       - ./ivy-cache:/home/spark/.ivy2
 
     depends_on:
@@ -81,6 +82,7 @@ services:
       - "8081:8081"
 
     volumes:
+      - ./exports:/opt/spark-apps/exports
       - ./ivy-cache:/home/spark/.ivy2
 
     depends_on:
